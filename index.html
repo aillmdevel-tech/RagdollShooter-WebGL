@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#75b8be">
+  <title>Ragdoll Gun Shooter</title>
+  <style>
+    *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#75b8be}
+    body{font-family:system-ui,sans-serif}canvas{display:block;width:100%;height:100%;outline:none;touch-action:none}
+    #loading{position:fixed;inset:0;display:grid;place-content:center;gap:16px;text-align:center;color:white;background:linear-gradient(#5368ca,#8d4fff)}
+    #loading strong{font-size:clamp(24px,5vw,42px);text-shadow:0 3px #3e2865}
+    progress{width:min(70vw,320px);height:16px;accent-color:#ffe446;justify-self:center}
+    #status{max-width:80vw;white-space:pre-wrap}#error{color:#fff4ab}
+  </style>
+</head>
+<body>
+  <canvas id="game" tabindex="0" aria-label="Ragdoll Gun Shooter — нажмите, чтобы выстрелить"></canvas>
+  <div id="loading"><strong>Ragdoll Gun Shooter</strong><progress max="1" value="0"></progress><div id="status">Загрузка игры…</div></div>
+  <script>
+    const canvas=document.getElementById('game'), loading=document.getElementById('loading');
+    const status=document.getElementById('status'), progress=document.querySelector('progress');
+    canvas.addEventListener('contextmenu',event=>event.preventDefault());
+    const loader=document.createElement('script');
+    loader.src='Build/RagdollShooter.loader.js';
+    function fail(message){console.error(message);if(!loading.isConnected)document.body.appendChild(loading);progress.hidden=true;status.id='error';status.textContent='Не удалось запустить игру. Обновите страницу или откройте её в браузере с WebGL2.\n'+message;}
+    loader.onerror=()=>fail('Ошибка загрузки файлов.');
+    loader.onload=()=>createUnityInstance(canvas,{
+      dataUrl:'Build/RagdollShooter.data.unityweb', frameworkUrl:'Build/RagdollShooter.framework.js.unityweb', codeUrl:'Build/RagdollShooter.wasm.unityweb',
+      streamingAssetsUrl:'StreamingAssets', companyName:'GoldDev', productName:'Ragdoll Gun Shooter',productVersion:'1.0',
+      devicePixelRatio:Math.min(window.devicePixelRatio||1,1.5),
+      showBanner:(message,type)=>{if(type==='error')fail(message);else console.warn(message);}
+    },value=>{progress.value=value;status.textContent='Загрузка игры… '+Math.round(value*100)+'%';}).then(instance=>{
+      window.unityInstance=instance;loading.remove();canvas.focus();
+    }).catch(fail);
+    document.body.appendChild(loader);
+  </script>
+</body>
+</html>
