@@ -22,11 +22,11 @@
     const status=document.getElementById('status'), progress=document.querySelector('progress');
     canvas.addEventListener('contextmenu',event=>event.preventDefault());
     const loader=document.createElement('script');
-    loader.src='Build/RagdollShooter.loader.js?v=D6886861AD92';
+    loader.src='Build/RagdollShooter.loader.js?v=70B1401AF366';
     function fail(message){console.error(message);if(!loading.isConnected)document.body.appendChild(loading);progress.hidden=true;status.id='error';status.textContent='Не удалось запустить игру. Обновите страницу или откройте её в браузере с WebGL2.\n'+message;}
     loader.onerror=()=>fail('Ошибка загрузки файлов.');
     loader.onload=()=>createUnityInstance(canvas,{
-      dataUrl:'Build/RagdollShooter.data.unityweb?v=B000571C54BD', frameworkUrl:'Build/RagdollShooter.framework.js.unityweb?v=5D1FAA2179DF', codeUrl:'Build/RagdollShooter.wasm.unityweb?v=A24DF0CAA44F',
+      dataUrl:'Build/RagdollShooter.data.unityweb?v=7B397C33A6A4', frameworkUrl:'Build/RagdollShooter.framework.js.unityweb?v=B314C66B45B1', codeUrl:'Build/RagdollShooter.wasm.unityweb?v=BA923990B412',
       streamingAssetsUrl:'StreamingAssets', companyName:'GoldDev', productName:'Ragdoll Gun Shooter',productVersion:'1.0',
       devicePixelRatio:Math.min(window.devicePixelRatio||1,1.5),
       showBanner:(message,type)=>{if(type==='error')fail(message);else console.warn(message);}
